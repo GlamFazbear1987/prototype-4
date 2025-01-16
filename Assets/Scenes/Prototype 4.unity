@@ -381,7 +381,7 @@ Transform:
   m_GameObject: {fileID: 389088480}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -398,7 +398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09dfefe2d63d34938843ed0be13d391d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 5
   hasPowerup: 0
   powerupIndicator: {fileID: 953579079}
 --- !u!1 &953579079 stripped
@@ -700,6 +700,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 155156766181044437, guid: 2def91635d54543a89bae2138907dc0f, type: 3}
+  enemyCount: 0
+  waveNumber: 1
+  powerupPrefab: {fileID: 7426925532084258434, guid: 0a5f9d5840de846dc9b2c1dcd4752944, type: 3}
 --- !u!4 &1760035466
 Transform:
   m_ObjectHideFlags: 0

@@ -5,54 +5,80 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody playerRb;
-    public float speed = 5.0f;
-    private GameObject focalPoint;
-    public bool hasPowerup;
-    private float powerupStrength = 15.0f;
-    public GameObject powerupIndicator;
+   public float speed = 500;
+   private GameObject focalPoint;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        playerRb = GetComponent<Rigidbody>();
-        focalPoint = GameObject.Find("Focal Point");
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        float forwardInput = Input.GetAxis("Vertical");
-        playerRb.AddForce(focalPoint.transform.forward * speed * forwardInput);
-        powerupIndicator.transform.position = transform.position + new Vector3(0, -0.5f, 0);
-    }
+   public bool hasPowerup;
+   public GameObject powerupIndicator;
+   public int powerUpDuration = 5;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Powerup"))
-        {
-            hasPowerup = true;
-            Destroy(other.gameObject);
-            StartCoroutine(PowerupCountdownRoutine());
-            powerupIndicator.gameObject.SetActive(true);
-        }
-    }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy") && hasPowerup)
-        {
-            Rigidbody enemyRigidbody = collision.gameObject.GetComponent<Rigidbody>();;
-            Vector3 awayFromPlayer = (collision.gameObject.transform.position - transform.position);
+   private float normalStrength = 10; // how hard to hit enemy without powerup
+   private float powerupStrength = 25; // how hard to hit enemy with powerup
+  
+   void Start()
+   {
+       playerRb = GetComponent<Rigidbody>();
+       focalPoint = GameObject.Find("Focal Point");
+   }
 
-            Debug.Log("Collided with " + collision.gameObject.name + " with powerup set to " + hasPowerup);
-            enemyRigidbody.AddForce(awayFromPlayer * powerupStrength, ForceMode.Impulse);
-        }
-    }
 
-    IEnumerator PowerupCountdownRoutine()
-    {
-        yield return new WaitForSeconds(7);
-        hasPowerup = false;
-        powerupIndicator.gameObject.SetActive(false);
-    }
+   void Update()
+   {
+       // Add force to player in direction of the focal point (and camera)
+       float verticalInput = Input.GetAxis("Vertical");
+       playerRb.AddForce(focalPoint.transform.forward * verticalInput * speed * Time.deltaTime);
+
+
+       // Set powerup indicator position to beneath player
+       powerupIndicator.transform.position = transform.position + new Vector3(0, -0.6f, 0);
+
+
+   }
+
+
+   // If Player collides with powerup, activate powerup
+   private void OnTriggerEnter(Collider other)
+   {
+       if (other.gameObject.CompareTag("Powerup"))
+       {
+           Destroy(other.gameObject);
+           hasPowerup = false;
+           powerupIndicator.SetActive(false);
+       }
+   }
+
+
+   // Coroutine to count down powerup duration
+   IEnumerator PowerupCooldown()
+   {
+       yield return new WaitForSeconds(powerUpDuration);
+       hasPowerup = false;
+       powerupIndicator.SetActive(false);
+   }
+
+
+   // If Player collides with enemy
+   private void OnCollisionEnter(Collision collision)
+   {
+       if (collision.gameObject.CompareTag("Enemy"))
+       {
+           Rigidbody enemyRigidbody = collision.gameObject.GetComponent<Rigidbody>();
+           Vector3 awayFromPlayer =  (collision.gameObject.transform.position - transform.position);
+         
+           if (hasPowerup) // if have powerup hit enemy with powerup force
+           {
+               enemyRigidbody.AddForce(awayFromPlayer * powerupStrength, ForceMode.Impulse);
+           }
+           else // if no powerup, hit enemy with normal strength
+           {
+               enemyRigidbody.AddForce(awayFromPlayer * normalStrength, ForceMode.Impulse);
+           }
+
+
+
+
+       }
+   }
 }
