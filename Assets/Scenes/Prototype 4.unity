@@ -342,7 +342,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7930e4b90ff2c4e0a9d0444078f1d63e, type: 2}
+  - {fileID: 2100000, guid: 33a04b0ac29b748b2976410da1397566, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -398,9 +398,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09dfefe2d63d34938843ed0be13d391d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 7
   hasPowerup: 0
   powerupIndicator: {fileID: 953579079}
+  powerUpDuration: 5
+  currentPowerUp: 0
+  rocketPrefab: {fileID: 2678121490894072153, guid: 167213a8825a74e8583a1c9dd18d3055, type: 3}
 --- !u!1 &953579079 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1742899641471652, guid: 923deea38dc6a8843b15db7638919c1e, type: 3}
@@ -699,10 +702,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f53df4ecb59247d595bea2b653a8824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 155156766181044437, guid: 2def91635d54543a89bae2138907dc0f, type: 3}
+  enemyPrefabs:
+  - {fileID: 155156766181044437, guid: 2def91635d54543a89bae2138907dc0f, type: 3}
+  - {fileID: 155156766181044437, guid: 2eb69224efa944064a31f7bede6ee570, type: 3}
+  powerupPrefabs:
+  - {fileID: 7426925532084258434, guid: 0a5f9d5840de846dc9b2c1dcd4752944, type: 3}
+  - {fileID: 7426925532084258434, guid: 0127ec4260a04478ea2d179e224d6505, type: 3}
   enemyCount: 0
   waveNumber: 1
-  powerupPrefab: {fileID: 7426925532084258434, guid: 0a5f9d5840de846dc9b2c1dcd4752944, type: 3}
 --- !u!4 &1760035466
 Transform:
   m_ObjectHideFlags: 0
